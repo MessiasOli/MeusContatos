@@ -1,8 +1,11 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-parcelize'
+    id 'kotlin-android-extensions'
+    //id 'kotlin-parcelize' - Versão antiga
 }
+
+//apply plugin 'kotlin-parcelize'
 
 android {
     compileSdkVersion 30
@@ -32,9 +35,9 @@ android {
         jvmTarget = '1.8'
     }
     //Ativando Binding de Views para o módulo meus contatos.app
-    viewBinding{
-        enabled = true
-    }
+//    viewBinding{
+//        enabled = true
+//    }
 }
 
 dependencies {
@@ -47,5 +50,5 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'android.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
