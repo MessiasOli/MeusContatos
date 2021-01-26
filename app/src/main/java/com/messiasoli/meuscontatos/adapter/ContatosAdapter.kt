@@ -1,5 +1,6 @@
 package com.messiasoli.meuscontatos.adapter
 
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,36 @@ class ContatosAdapter(
 ): RecyclerView.Adapter<ContatosAdapter.ContatoViewHolder>() {
 
     inner class ContatoViewHolder(layoutContatoView: View):
-        RecyclerView.ViewHolder(layoutContatoView) {
-        val nomeTv: TextView = layoutContatoView.findViewById(R.id.nomeTv)
-        val telefoneTv: TextView = layoutContatoView.findViewById(R.id.telefoneTv)
+        RecyclerView.ViewHolder(layoutContatoView), View.OnCreateContextMenuListener {
+        val nomeTv: TextView = layoutContatoView.findViewById(R.id.nomeContatoEt)
+        val telefoneTv: TextView = layoutContatoView.findViewById(R.id.telefoneContatoEt)
+
+        init {
+            layoutContatoView.setOnCreateContextMenuListener(this)
+        }
+
+        // Posicao será setada pelo onBindViewHolder para chamar as funções de tratamento de clique para o contato correto
+        private val POSICAO_INVALIDA = -1
+        var posicao: Int = POSICAO_INVALIDA
+
+        override fun onCreateContextMenu(menu: ContextMenu?, view: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+            // Criar as opções de menu e seta os listeners de clique para cada MenuItem
+            menu?.add("Editar")?.setOnMenuItemClickListener {
+                if (posicao != POSICAO_INVALIDA){
+                    onContatoClickListener.onEditarMenuItemClick(posicao)
+                    true;
+                }
+                false
+            }
+
+            menu?.add("Remover")?.setOnMenuItemClickListener {
+                if (posicao != POSICAO_INVALIDA){
+                    onContatoClickListener.onRemoverMenuItemClick(posicao)
+                    true;
+                }
+                false
+            }
+        }
     }
 
     // Chamado pelo LayoutManager para criar uma nova View
@@ -43,9 +71,13 @@ class ContatosAdapter(
         // chama a função definida na interface OnContatoClick, implementada na Activity e
         // recebida como parâmetro no construtor do Adapter. Ou seja, ao ser clicada a
         // View terá chamará a função definida na Activity passando a posição
+
         holder.itemView.setOnClickListener{
             onContatoClickListener.onContatoClick(position)
         }
+
+        //Setando a posicao para o contexto
+        holder.posicao = position
     }
 
     // Chamado pelo LayoutManager para buscar a quantidade de dados e preparar a quanti

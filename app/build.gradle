@@ -34,10 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    //Ativando Binding de Views para o módulo meus contatos.app
-//    viewBinding{
-//        enabled = true
-//    }
+
+    buildFeatures{
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -51,4 +51,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.databinding:viewbinding:4.1.1@aar'
+
+    // Bill of Materials - Firebase
+    implementation platform('com.google.firebase:firebase-bom:26.1.1')
+    implementation "com.google.firebase:firebase-database-ktx:19.5.1"
 }
