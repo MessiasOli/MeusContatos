@@ -1,4 +1,4 @@
-package com.messiasoli.meuscontatos
+package br.edu.ifsp.scl.ads.s5.pdm.meuscontatos
 
 import org.junit.Test
 
