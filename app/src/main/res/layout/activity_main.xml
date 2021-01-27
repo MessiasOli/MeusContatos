@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.MainActivity" >
+    tools:context="br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.view.MainActivity" >
 
     <ProgressBar
         android:id="@+id/contatosListPb"
@@ -15,7 +15,7 @@
         android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listaContatosRv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/listaContatosRv"/>
 </LinearLayout>

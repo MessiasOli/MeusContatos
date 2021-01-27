@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "8542240128",
+    "firebase_url": "https://meuscontatos-beb3b-default-rtdb.firebaseio.com",
+    "project_id": "meuscontatos-beb3b",
+    "storage_bucket": "meuscontatos-beb3b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8542240128:android:faae9375f3dcc10b005565",
+        "android_client_info": {
+          "package_name": "br.edu.ifsp.scl.ads.s5.pdm.meuscontatos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8542240128-8il8n896f3uog67hrpto21cvsotocccs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABQlm2N6M9oaDcVkdedkdStAjJUPbWvBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8542240128-8il8n896f3uog67hrpto21cvsotocccs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,22 +1,21 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
-    //id 'kotlin-parcelize' - Versão antiga
+    id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
 }
-
-//apply plugin 'kotlin-parcelize'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.messiasoli.meuscontatos"
+        applicationId "br.edu.ifsp.scl.ads.s5.pdm.meuscontatos"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,7 +34,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -50,10 +49,22 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // Adicionando biblioteca para o RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.databinding:viewbinding:4.1.1@aar'
-
-    // Bill of Materials - Firebase
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
-    implementation "com.google.firebase:firebase-database-ktx:19.5.1"
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    // Declare the dependencies for any other desired Firebase products
+    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 }
