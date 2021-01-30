@@ -1,5 +1,6 @@
 package br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.adapter
 
+import android.provider.ContactsContract
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +13,15 @@ import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.model.Contato
 class ContatosAdapter(
     private val contatosList: MutableList<Contato>,
     private val onContatoClickListener: OnContatoClickListener,
-): RecyclerView.Adapter<ContatosAdapter.ContatoViewHolder>() {
 
-    inner class ContatoViewHolder(layoutContatoView: View): RecyclerView.ViewHolder(layoutContatoView),
+): RecyclerView.Adapter<ContatosAdapter.ViewHolder>() {
+
+    inner class ViewHolder(layoutContatoView: View) : RecyclerView.ViewHolder(layoutContatoView),
         View.OnCreateContextMenuListener {
-        val nomeTv: TextView = layoutContatoView.findViewById(R.id.nomeTv)
-        val telefoneTv: TextView = layoutContatoView.findViewById(R.id.telefoneTv)
+        val nomeTv = layoutContatoView.findViewById<TextView>(R.id.nomeTv)
+        val telefoneTv = layoutContatoView.findViewById<TextView>(R.id.telefoneTv)
+        val emailTv = layoutContatoView.findViewById<TextView>(R.id.emailTv)
+
         init {
             layoutContatoView.setOnCreateContextMenuListener(this)
         }
@@ -46,22 +50,29 @@ class ContatosAdapter(
     }
 
     // Chamado pelo LayoutManager para criar uma nova View
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContatoViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContatosAdapter.ViewHolder {
         // Cria uma nova View
         val layoutContatoView: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_contato, parent, false)
 
         // Criar e retorna um ViewHolder associado a nova View
-        return ContatoViewHolder(layoutContatoView)
+        return ViewHolder(layoutContatoView)
     }
 
     // Chamado pelo ViewHolder para alterar o conteúdo de uma View
-    override fun onBindViewHolder(holder: ContatoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ContatosAdapter.ViewHolder, position: Int) {
         // Busca o contato para pegar os valores
         val contato = contatosList[position]
 
         // Seta os novos valores no ViewHolder
-        holder.nomeTv.text = contato.nome
-        holder.telefoneTv.text = contato.telefone
+        val nomeTv = holder.nomeTv
+        val telefoneTv =  holder.telefoneTv
+        val emailTv =  holder.emailTv
+
+        nomeTv.text =  contato.nome
+        telefoneTv.text = "Telefone: " + contato.telefone
+        emailTv.text = "E-mail: " + contato.email
+
+
         // Seta o onClickListener da View associada ao ViewHolder como uma lambda que
         // chama a função definida na interface OnContatoClick, implementada na Activity e
         // recebida como parâmetro no construtor do Adapter. Ou seja, ao ser clicada a

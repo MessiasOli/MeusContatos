@@ -5,7 +5,8 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
-import com.messiasoli.meuscontatos.R
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.R
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.model.Contato
 import com.messiasoli.meuscontatos.model.ContatoSqlite.Constantes.CONTATO_TABLE
 import com.messiasoli.meuscontatos.model.ContatoSqlite.Constantes.CREATE_CONTATO_TABLE_STATEMENT
 import com.messiasoli.meuscontatos.model.ContatoSqlite.Constantes.EMAIL_COLUMN

@@ -1,6 +1,6 @@
 package com.messiasoli.meuscontatos.controller
 
-import com.messiasoli.meuscontatos.model.Contato
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.model.Contato
 import com.messiasoli.meuscontatos.model.ContatoDao
 import com.messiasoli.meuscontatos.model.ContatoFirebase
 import com.messiasoli.meuscontatos.model.ContatoSqlite

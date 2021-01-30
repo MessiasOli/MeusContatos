@@ -13,16 +13,14 @@ import android.widget.ActionMenuView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.messiasoli.meuscontatos.R
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.R
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.databinding.ActivityMainBinding
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.model.Contato
 import com.messiasoli.meuscontatos.adapter.ContatosAdapter
 import com.messiasoli.meuscontatos.adapter.OnContatoClickListener
 import com.messiasoli.meuscontatos.controller.ContatoController
-import com.messiasoli.meuscontatos.databinding.ActivityMainBinding
-import com.messiasoli.meuscontatos.model.Contato
 import com.messiasoli.meuscontatos.view.MainActivity.Extras.EXTRA_CONTATO
 import com.messiasoli.meuscontatos.view.MainActivity.Extras.VISUALIZAR_CONTATO_ACTION
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : AppCompatActivity(), OnContatoClickListener {
     // Data source do Adapter
@@ -66,15 +64,15 @@ class MainActivity : AppCompatActivity(), OnContatoClickListener {
 
             override fun onPreExecute() {
                 super.onPreExecute()
-                contatosListPb.visibility = View.VISIBLE
-                listaContatosRv.visibility = View.GONE
+                activityMainBinding.contatosListPb.visibility = View.VISIBLE
+                activityMainBinding.listaContatosRv.visibility = View.GONE
             }
 
             override fun onPostExecute(result: List<Contato>?) {
                 super.onPostExecute(result)
                 //Thread de Gui
-                contatosListPb.visibility = View.GONE
-                listaContatosRv.visibility = View.VISIBLE
+                activityMainBinding.contatosListPb.visibility = View.GONE
+                activityMainBinding.listaContatosRv.visibility = View.VISIBLE
                 if (result != null) {
                     contatoList.clear()
                     contatoList.addAll(result)
@@ -92,8 +90,8 @@ class MainActivity : AppCompatActivity(), OnContatoClickListener {
         contatosAdapter = ContatosAdapter(contatoList, this)
 
         //Associar o Adapter e o LayoutManager com o RecyclerView
-        listaContatosRv.adapter = contatosAdapter
-        listaContatosRv.layoutManager = contatosLayoutManager
+        activityMainBinding.listaContatosRv.adapter = contatosAdapter
+        activityMainBinding.listaContatosRv.layoutManager = contatosLayoutManager
     }
 
     override fun onContatoClick(position: Int) {

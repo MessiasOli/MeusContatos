@@ -1,5 +1,6 @@
 package com.messiasoli.meuscontatos.model
 
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.model.Contato
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

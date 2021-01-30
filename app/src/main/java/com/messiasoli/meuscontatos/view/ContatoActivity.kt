@@ -6,12 +6,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.messiasoli.meuscontatos.R
-import com.messiasoli.meuscontatos.databinding.ActivityContatoBinding
-import com.messiasoli.meuscontatos.databinding.ActivityMainBinding
-import com.messiasoli.meuscontatos.databinding.LayoutContatoBinding
-import com.messiasoli.meuscontatos.model.Contato
-import kotlinx.android.synthetic.main.layout_contato.*
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.R
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.databinding.ActivityContatoBinding
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.model.Contato
 
 class ContatoActivity : AppCompatActivity() {
     //Classe de ViewBinding
@@ -27,24 +24,24 @@ class ContatoActivity : AppCompatActivity() {
 
         if (contato != null){
           // Editar contato
-            nomeContatoEt.setText(contato.nome)
-            nomeContatoEt.isEnabled = false
-            telefoneContatoEt.setText(contato.telefone)
-            emailContatoEd.setText(contato.email)
+            activityContatosBinding.nomeContatoEt.setText(contato.nome)
+            activityContatosBinding.nomeContatoEt.isEnabled = false
+            activityContatosBinding.telefoneContatoEt.setText(contato.telefone)
+            activityContatosBinding.emailContatoEt .setText(contato.email)
 
             if (intent.action == MainActivity.Extras.VISUALIZAR_CONTATO_ACTION){
                 // Visualizar contato
-                telefoneContatoEt.isEnabled = false
-                emailContatoEd.isEnabled = false
-                salvarBt.visibility = View.GONE
+                activityContatosBinding.telefoneContatoEt.isEnabled = false
+                activityContatosBinding.emailContatoEt.isEnabled = false
+                activityContatosBinding.salvarBt.visibility = View.GONE
             }
         }
 
-        salvarBt.setOnClickListener {
+        activityContatosBinding.salvarBt.setOnClickListener {
             val novoContato = Contato(
-                nomeContatoEt.text.toString(),
-                telefoneContatoEt.text.toString(),
-                emailContatoEd.text.toString()
+                activityContatosBinding.nomeContatoEt.text.toString(),
+                activityContatosBinding.telefoneContatoEt.text.toString(),
+                activityContatosBinding.emailContatoEt.text.toString()
             )
             val retornoIntent = Intent()
             retornoIntent.putExtra(MainActivity.Extras.EXTRA_CONTATO, novoContato)

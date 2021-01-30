@@ -24,6 +24,7 @@ class ContatoActivity : AppCompatActivity() {
             activityContatoBinding.nomeContatoEt.isEnabled = false
             activityContatoBinding.telefoneContatoEt.setText(contato.telefone)
             activityContatoBinding.emailContatoEt.setText(contato.email)
+
             if (intent.action == MainActivity.Extras.VISUALIZAR_CONTATO_ACTION) {
                 // Visualizar contato
                 activityContatoBinding.telefoneContatoEt.isEnabled = false
