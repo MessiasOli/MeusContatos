@@ -11,7 +11,7 @@ import com.google.firebase.ktx.Firebase
 class ContatoFirebase: ContatoDao {
     private val CONTATOS_LIST_REALTIME_DATABASE = "contatosList"
      //Referência para o nó principal que é a lista de contatos do RtDb
-    private val contatosListRtDb = Firebase.database.reference
+    private val contatosListRtDb = Firebase.database.getReference(CONTATOS_LIST_REALTIME_DATABASE)
 
     private val contatosList: MutableList<Contato> = mutableListOf()
     init {
