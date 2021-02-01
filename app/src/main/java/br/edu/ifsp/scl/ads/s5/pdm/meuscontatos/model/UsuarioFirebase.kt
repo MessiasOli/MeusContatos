@@ -48,7 +48,12 @@ class UsuarioFirebase {
 
     fun createUsuario(usuario: Usuario) = createOrUpdateUsurio(usuario)
 
-    fun readUsuario(email: String): Usuario = usuarios[usuarios.indexOfFirst { it.email.equals(email) }]
+    fun readUsuario(email: String): Usuario? {
+        val index  = usuarios.indexOfFirst { it.email.equals(email) }
+        if (index > -1)
+            return usuarios[index]
+        return null
+    }
 
     fun getMaxId() : Int {
         var id = 0

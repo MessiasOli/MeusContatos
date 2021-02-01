@@ -39,9 +39,12 @@ class CadastrarActivity : AppCompatActivity() {
                 //Ciar usuário no Firebase
                 AutenticadorFirebase.firebaseAuth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener() { task ->
                     if (task.isSuccessful) {
-
                         ctrUsuario.insereUsuario(usuario)
-                        Toast.makeText(this, "Usuário $email craido com sucesso!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Usuário $email criado com sucesso!", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    else if(task.isComplete) {
+                        Toast.makeText(this, "Este e-mail, já possui uma conta!", Toast.LENGTH_SHORT).show()
                         finish()
                     }
                     else {

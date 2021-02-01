@@ -20,6 +20,7 @@ class ContatoActivity : AppCompatActivity() {
         ctrContato = ContatoController()
         setContentView(activityContatoBinding.root)
         getSupportActionBar()?.setSubtitle("Cadastro de contatos");
+        val usuario : Usuario = intent.getParcelableExtra(MainActivity.Extras.USUARIO)!!
 
 
         // Novo contato ou editar contato
@@ -42,7 +43,6 @@ class ContatoActivity : AppCompatActivity() {
 
 
         activityContatoBinding.salvarBt.setOnClickListener {
-            val usuario : Usuario = intent.getParcelableExtra(MainActivity.Extras.USUARIO)!!
 
             val novoContato = Contato(
                 ctrContato.buscaMaiorIdContatos(),

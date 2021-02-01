@@ -126,8 +126,13 @@ class MainActivity : AppCompatActivity(), OnContatoClickListener {
             return true
         }
         if (item.itemId == R.id.sairMi){
+            // Deslogar
+            AutenticadorFirebase.firebaseAuth.signOut()
+            AutenticadorFirebase.googleSignInClient?.signOut()
+
             val sair = Intent(this, AutenticacaoActivity::class.java)
             startActivity(sair)
+            finish()
             return true
         }
             return false

@@ -3,17 +3,20 @@ package br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.R
 import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.controller.UsuarioController
 import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.databinding.ActivityAutenticacaoBinding
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.model.Usuario
 import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.view.AutenticacaoActivity.Extra.USUARIO
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
+import java.util.*
 
 class AutenticacaoActivity : AppCompatActivity() {
 
@@ -35,7 +38,7 @@ class AutenticacaoActivity : AppCompatActivity() {
         setContentView(activityAutenticacaoBinding.root)
 
         // Instanciar a GSO
-        googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
+        googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
@@ -53,10 +56,11 @@ class AutenticacaoActivity : AppCompatActivity() {
             else
             {
                 // Já existe uma conta Gooogle Logada
-                posLoginSucess()
+                posLoginSucess(googleSignInAccount)
             }
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -68,11 +72,12 @@ class AutenticacaoActivity : AppCompatActivity() {
                 if (contaGoogle != null){
                     // Extraindo as credenciais a partir do idToken da conta Google
                     val credencial = GoogleAuthProvider.getCredential(contaGoogle.idToken, null)
+                    Log.d("MEUS CONTATOS", contaGoogle.displayName.toString())
 
                     AutenticadorFirebase.firebaseAuth.signInWithCredential(credencial).addOnCompleteListener{task ->
                         if(task.isSuccessful) {
                             Toast.makeText(this, "Usuário ${contaGoogle.email} autenticado", Toast.LENGTH_SHORT).show()
-                            posLoginSucess()
+                            posLoginSucess(contaGoogle)
                         }
                         else {
                             Toast.makeText(this, "Falha ao autenticação do Google", Toast.LENGTH_SHORT).show()
@@ -85,6 +90,7 @@ class AutenticacaoActivity : AppCompatActivity() {
                 }
 
             } catch (e: ApiException){
+                Log.d( "MEUS CONTATOS","Falha na autenticação " + e)
                 Toast.makeText(this, "Falha ao autenticação do Google", Toast.LENGTH_SHORT).show()
             }
         }
@@ -117,10 +123,19 @@ class AutenticacaoActivity : AppCompatActivity() {
         }
     }
 
-    private fun posLoginSucess() {
-        val email = activityAutenticacaoBinding.emailEt.toString()
-        val senha = activityAutenticacaoBinding.senhaEt.toString()
-        AutenticadorFirebase.firebaseAuth.signInWithEmailAndPassword(email, senha)
-            .addOnSuccessListener {}
+    private fun posLoginSucess(googleSignInAccount: GoogleSignInAccount) {
+        var usuario = ctrUsuario.buscaUsuario(googleSignInAccount.email.toString())
+        if(usuario == null) {
+            usuario = Usuario(
+                    ctrUsuario.buscaMaiorId(),
+                    googleSignInAccount.displayName.toString(),
+                    googleSignInAccount.email.toString()
+            )
+            ctrUsuario.insereUsuario(usuario)
+        }
+        val mainActivity = Intent(this, MainActivity::class.java)
+        mainActivity.putExtra(USUARIO, usuario)
+        startActivityForResult(mainActivity, 0)
     }
 }
+
