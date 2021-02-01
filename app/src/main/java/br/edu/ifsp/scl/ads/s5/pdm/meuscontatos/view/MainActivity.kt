@@ -14,7 +14,9 @@ import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.adapter.OnContatoClickListener
 import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.controller.ContatoController
 import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.databinding.ActivityMainBinding
 import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.model.Contato
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.model.Usuario
 import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.view.MainActivity.Extras.EXTRA_CONTATO
+import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.view.MainActivity.Extras.USUARIO
 import br.edu.ifsp.scl.ads.s5.pdm.meuscontatos.view.MainActivity.Extras.VISUALIZAR_CONTATO_ACTION
 
 class MainActivity : AppCompatActivity(), OnContatoClickListener {
@@ -25,6 +27,8 @@ class MainActivity : AppCompatActivity(), OnContatoClickListener {
     // LayoutManager do RecyclerView
     private lateinit var contatosLayoutManager: LinearLayoutManager
 
+    private lateinit var usuario: Usuario
+
     // Classe ViewBinding para evitar chamadas a findViewById
     private lateinit var activityMainBinding: ActivityMainBinding
 
@@ -32,6 +36,7 @@ class MainActivity : AppCompatActivity(), OnContatoClickListener {
     private val NOVO_CONTATO_REQUEST_CODE = 0
     private val EDITAR_CONTATO_REQUEST_CODE = 1
     object Extras {
+        val USUARIO = "USUARIO"
         val EXTRA_CONTATO = "EXTRA_CONTATO"
         val VISUALIZAR_CONTATO_ACTION = "VISUALIZAR_CONTATO_ACTION"
     }
@@ -42,12 +47,18 @@ class MainActivity : AppCompatActivity(), OnContatoClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        usuario = intent.getParcelableExtra(AutenticacaoActivity.Extra.USUARIO)!!
+
+        if (usuario != null) {
+            getSupportActionBar()?.setSubtitle("Olá " + usuario.nome);
+        }
+
         // Instancia classe de ViewBinding e seta layout como sendo o root
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
         // Instanciando Controller
-        contatoController = ContatoController(this)
+        contatoController = ContatoController()
 
         // Inicializando lista de contatos para o Adapter
         contatosList = mutableListOf()
@@ -55,7 +66,7 @@ class MainActivity : AppCompatActivity(), OnContatoClickListener {
             override fun doInBackground(vararg p0: Void?): List<Contato> {
                 // Thread filha
                 Thread.sleep(5000)
-                return contatoController.buscaContatos()
+                return contatoController.buscaContatos(usuario.id)
             }
 
             override fun onPreExecute() {
@@ -107,14 +118,25 @@ class MainActivity : AppCompatActivity(), OnContatoClickListener {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+    override fun onOptionsItemSelected(item: MenuItem): Boolean{
         if (item.itemId == R.id.novoContatoMi) {
             val novoContantoIntent = Intent(this, ContatoActivity::class.java)
+            novoContantoIntent.putExtra(USUARIO, usuario)
             startActivityForResult(novoContantoIntent, NOVO_CONTATO_REQUEST_CODE)
-            true
+            return true
         }
-        else
-            false
+        if (item.itemId == R.id.sairMi){
+            // Deslogar
+            AutenticadorFirebase.firebaseAuth.signOut()
+            AutenticadorFirebase.googleSignInClient?.signOut()
+
+            val sair = Intent(this, AutenticacaoActivity::class.java)
+            startActivity(sair)
+            finish()
+            return true
+        }
+            return false
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

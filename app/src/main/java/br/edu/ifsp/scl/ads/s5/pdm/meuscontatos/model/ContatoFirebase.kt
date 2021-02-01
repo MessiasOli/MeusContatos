@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import java.lang.Exception
 
 
 class ContatoFirebase: ContatoDao {
@@ -50,8 +51,6 @@ class ContatoFirebase: ContatoDao {
 
     override fun readContato(nome: String): Contato = contatosList[contatosList.indexOfFirst { it.nome.equals(nome) }]
 
-    override fun readContatos(): MutableList<Contato> = contatosList
-
     override fun updateContato(contato: Contato) = createOrUpdateContato(contato)
 
     override fun deleteContato(nome: String) {
@@ -60,5 +59,22 @@ class ContatoFirebase: ContatoDao {
 
     private fun createOrUpdateContato(contato: Contato) {
         contatosListRtDb.child(contato.nome).setValue(contato)
+    }
+
+    override fun readContatos(idUsuario: Int): MutableList<Contato> {
+        val contatos : List<Contato> = contatosList.filter { it.idUsuario == idUsuario }
+        val list : MutableList<Contato> = mutableListOf()
+        contatos.forEach { c ->  list.add(c) }
+        return list
+    }
+
+    override fun getMaxId() : Int {
+        var id = 0
+        try {
+            id = contatosList.maxOf { it.id }
+            return ++id
+        }catch (e : Exception) {
+            return ++id
+        }
     }
 }

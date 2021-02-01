@@ -5,4 +5,9 @@
         android:id="@+id/novoContatoMi"
         android:title="@string/novo_contato"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/sairMi"
+        android:title="@string/sair"
+        app:showAsAction="never" />
+
 </menu>
