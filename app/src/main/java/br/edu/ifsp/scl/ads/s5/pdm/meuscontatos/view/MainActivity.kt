@@ -171,6 +171,7 @@ class MainActivity : AppCompatActivity(), OnContatoClickListener {
 
         val editarContatoIntent = Intent(this, ContatoActivity::class.java)
         editarContatoIntent.putExtra(EXTRA_CONTATO, contatoSelecionado)
+        editarContatoIntent.putExtra(USUARIO, usuario)
         startActivityForResult(editarContatoIntent, EDITAR_CONTATO_REQUEST_CODE)
     }
 
